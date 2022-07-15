@@ -11,6 +11,7 @@ import { DailyTable } from "../components/DailyTable";
 export interface Item {
   id: number;
   text: string;
+  time: number;
 }
 
 export interface ContainerState {
@@ -27,26 +28,32 @@ export default function DailyManger() {
     {
       id: 2,
       text: "공부하기",
+      time: 2,
     },
     {
       id: 3,
       text: "놀기",
+      time: 3,
     },
     {
       id: 4,
       text: "밥 먹기",
+      time: 1,
     },
     {
       id: 5,
       text: "책읽기",
+      time: 1,
     },
     {
       id: 6,
       text: "???",
+      time: 1,
     },
     {
       id: 7,
       text: "PROFIT",
+      time: 1,
     },
   ]);
 
@@ -64,20 +71,18 @@ export default function DailyManger() {
     []
   );
 
-  const renderCard = React.useCallback(
-    (card: { id: number; text: string }, index: number) => {
-      return (
-        <Card
-          key={card.id}
-          index={index}
-          id={card.id}
-          text={card.text}
-          moveCard={moveCard}
-        />
-      );
-    },
-    []
-  );
+  const renderCard = React.useCallback((card: Item, index: number) => {
+    return (
+      <Card
+        key={card.id}
+        index={index}
+        id={card.id}
+        text={card.text}
+        length={card.time}
+        moveCard={moveCard}
+      />
+    );
+  }, []);
 
   return (
     <React.Fragment>

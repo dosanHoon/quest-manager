@@ -1,12 +1,11 @@
 import { styled } from "@mui/material/styles";
-import { Paper } from "@mui/material";
 import type { Identifier, XYCoord } from "dnd-core";
 import type { FC } from "react";
 import { useRef } from "react";
 import { useDrag, useDrop } from "react-dnd";
 import { ItemTypes } from "../ItemTypes";
 
-const Item = styled("div")`
+const Item = styled("div")<{ length: number }>`
   text-align: center;
   z-index: 9999;
   cursor: move;
@@ -15,12 +14,14 @@ const Item = styled("div")`
   padding: 10px;
   border: 1px solid;
   border-radius: 6px;
+  ${({ length }) => `height : ${length * 44}px`}
 `;
 
 export interface CardProps {
   id: any;
   text: string;
   index: number;
+  length: number;
   moveCard: (dragIndex: number, hoverIndex: number) => void;
 }
 
@@ -30,7 +31,7 @@ interface DragItem {
   type: string;
 }
 
-export const Card: FC<CardProps> = ({ id, text, index, moveCard }) => {
+export const Card: FC<CardProps> = ({ id, text, index, length, moveCard }) => {
   const ref = useRef<HTMLDivElement>(null);
   const [{ handlerId }, drop] = useDrop<
     DragItem,
@@ -106,7 +107,12 @@ export const Card: FC<CardProps> = ({ id, text, index, moveCard }) => {
   const opacity = isDragging ? 0 : 1;
   drag(drop(ref));
   return (
-    <Item ref={ref} style={{ opacity }} data-handler-id={handlerId}>
+    <Item
+      ref={ref}
+      style={{ opacity }}
+      data-handler-id={handlerId}
+      length={length}
+    >
       {text}
     </Item>
   );
