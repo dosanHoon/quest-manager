@@ -4,7 +4,7 @@ import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import { Stack } from "@mui/material";
 
-import { Card } from "../components/Card";
+import { DailyQuest } from "../components/DailyQuest";
 import update from "immutability-helper";
 import { DailyTable } from "../components/DailyTable";
 
@@ -71,15 +71,24 @@ export default function DailyManger() {
     []
   );
 
-  const renderCard = React.useCallback((card: Item, index: number) => {
+  const removeCard = React.useCallback((index: number) => {
+    setCards((prevCards: Item[]) =>
+      update(prevCards, {
+        $splice: [[index, 1]],
+      })
+    );
+  }, []);
+
+  const renderQuest = React.useCallback((card: Item, index: number) => {
     return (
-      <Card
+      <DailyQuest
         key={card.id}
         index={index}
         id={card.id}
         text={card.text}
         length={card.time}
         moveCard={moveCard}
+        removeCard={removeCard}
       />
     );
   }, []);
@@ -98,7 +107,7 @@ export default function DailyManger() {
           }}
         >
           <Stack spacing={2}>
-            {cards.map((card, i) => renderCard(card, i))}
+            {cards.map((card, i) => renderQuest(card, i))}
           </Stack>
           <DailyTable />
         </Box>

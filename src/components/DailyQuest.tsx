@@ -1,9 +1,12 @@
-import { styled } from "@mui/material/styles";
+import { styled } from "@mui/system";
 import type { Identifier, XYCoord } from "dnd-core";
 import type { FC } from "react";
 import { useRef } from "react";
 import { useDrag, useDrop } from "react-dnd";
 import { ItemTypes } from "../ItemTypes";
+import CancelIcon from "@mui/icons-material/Cancel";
+
+const CloseBtn = styled(CancelIcon)``;
 
 const Item = styled("div")<{ length: number }>`
   text-align: center;
@@ -14,6 +17,14 @@ const Item = styled("div")<{ length: number }>`
   padding: 10px;
   border: 1px solid;
   border-radius: 6px;
+  &::hover ${CloseBtn} {
+    opacity: 0;
+  }
+  ${CloseBtn} {
+    position: absolute;
+    opacity: 0;
+    right: 30px;
+  }
   ${({ length }) => `height : ${length * 44}px`}
 `;
 
@@ -23,6 +34,7 @@ export interface CardProps {
   index: number;
   length: number;
   moveCard: (dragIndex: number, hoverIndex: number) => void;
+  removeCard: (index: number) => void;
 }
 
 interface DragItem {
@@ -31,7 +43,14 @@ interface DragItem {
   type: string;
 }
 
-export const Card: FC<CardProps> = ({ id, text, index, length, moveCard }) => {
+export const DailyQuest: FC<CardProps> = ({
+  id,
+  text,
+  index,
+  length,
+  removeCard,
+  moveCard,
+}) => {
   const ref = useRef<HTMLDivElement>(null);
   const [{ handlerId }, drop] = useDrop<
     DragItem,
@@ -113,6 +132,7 @@ export const Card: FC<CardProps> = ({ id, text, index, length, moveCard }) => {
       data-handler-id={handlerId}
       length={length}
     >
+      <CloseBtn onClick={() => removeCard(index)} />
       {text}
     </Item>
   );
