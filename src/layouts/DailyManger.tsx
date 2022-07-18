@@ -8,6 +8,7 @@ import { DailyQuest } from "../components/DailyQuest";
 import update from "immutability-helper";
 import { DailyTable } from "../components/DailyTable";
 
+import LocalHospitalIcon from "@mui/icons-material/LocalHospital";
 export interface Item {
   id: number;
   text: string;
@@ -15,11 +16,11 @@ export interface Item {
 }
 
 export interface ContainerState {
-  cards: Item[];
+  quests: Item[];
 }
 
 export default function DailyManger() {
-  const [cards, setCards] = React.useState([
+  const [quests, setQuests] = React.useState([
     {
       id: 1,
       text: "운동하기",
@@ -57,13 +58,13 @@ export default function DailyManger() {
     },
   ]);
 
-  const moveCard = React.useCallback(
+  const moveQuest = React.useCallback(
     (dragIndex: number, hoverIndex: number) => {
-      setCards((prevCards: Item[]) =>
-        update(prevCards, {
+      setQuests((prevQuests: Item[]) =>
+        update(prevQuests, {
           $splice: [
             [dragIndex, 1],
-            [hoverIndex, 0, prevCards[dragIndex] as Item],
+            [hoverIndex, 0, prevQuests[dragIndex] as Item],
           ],
         })
       );
@@ -71,24 +72,26 @@ export default function DailyManger() {
     []
   );
 
-  const removeCard = React.useCallback((index: number) => {
-    setCards((prevCards: Item[]) =>
-      update(prevCards, {
+  const removeQuest = React.useCallback((index: number) => {
+    setQuests((prevQuests: Item[]) =>
+      update(prevQuests, {
         $splice: [[index, 1]],
       })
     );
   }, []);
 
-  const renderQuest = React.useCallback((card: Item, index: number) => {
+  const addNewQuest = () => {};
+
+  const renderQuest = React.useCallback((quest: Item, index: number) => {
     return (
       <DailyQuest
-        key={card.id}
+        key={quest.id}
         index={index}
-        id={card.id}
-        text={card.text}
-        length={card.time}
-        moveCard={moveCard}
-        removeCard={removeCard}
+        id={quest.id}
+        text={quest.text}
+        length={quest.time}
+        moveQuest={moveQuest}
+        removeQuest={removeQuest}
       />
     );
   }, []);
@@ -107,8 +110,11 @@ export default function DailyManger() {
           }}
         >
           <Stack spacing={2}>
-            {cards.map((card, i) => renderQuest(card, i))}
+            {quests.map((quest, i) => renderQuest(quest, i))}
           </Stack>
+          <p style={{ textAlign: "right" }}>
+            <LocalHospitalIcon onClick={addNewQuest} />
+          </p>
           <DailyTable />
         </Box>
       </Container>

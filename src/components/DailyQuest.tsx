@@ -30,13 +30,13 @@ const Item = styled("div")<{ length: number }>`
   ${({ length }) => `height : ${length * 44}px`}
 `;
 
-export interface CardProps {
+export interface QuestProps {
   id: any;
   text: string;
   index: number;
   length: number;
-  moveCard: (dragIndex: number, hoverIndex: number) => void;
-  removeCard: (index: number) => void;
+  moveQuest: (dragIndex: number, hoverIndex: number) => void;
+  removeQuest: (index: number) => void;
 }
 
 interface DragItem {
@@ -45,13 +45,13 @@ interface DragItem {
   type: string;
 }
 
-export const DailyQuest: FC<CardProps> = ({
+export const DailyQuest: FC<QuestProps> = ({
   id,
   text,
   index,
   length,
-  removeCard,
-  moveCard,
+  removeQuest,
+  moveQuest,
 }) => {
   const ref = useRef<HTMLDivElement>(null);
   const [{ handlerId }, drop] = useDrop<
@@ -59,7 +59,7 @@ export const DailyQuest: FC<CardProps> = ({
     void,
     { handlerId: Identifier | null }
   >({
-    accept: ItemTypes.CARD,
+    accept: ItemTypes.QUEST,
     collect(monitor) {
       return {
         handlerId: monitor.getHandlerId(),
@@ -105,7 +105,7 @@ export const DailyQuest: FC<CardProps> = ({
       }
 
       // Time to actually perform the action
-      moveCard(dragIndex, hoverIndex);
+      moveQuest(dragIndex, hoverIndex);
 
       // Note: we're mutating the monitor item here!
       // Generally it's better to avoid mutations,
@@ -116,7 +116,7 @@ export const DailyQuest: FC<CardProps> = ({
   });
 
   const [{ isDragging }, drag] = useDrag({
-    type: ItemTypes.CARD,
+    type: ItemTypes.QUEST,
     item: () => {
       return { id, index };
     },
@@ -134,7 +134,7 @@ export const DailyQuest: FC<CardProps> = ({
       data-handler-id={handlerId}
       length={length}
     >
-      <CloseBtn onClick={() => removeCard(index)} />
+      <CloseBtn onClick={() => removeQuest(index)} />
       {text}
     </Item>
   );

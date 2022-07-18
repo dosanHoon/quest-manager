@@ -15,11 +15,11 @@ export interface Item {
 }
 
 export interface ContainerState {
-  cards: Item[];
+  quests: Item[];
 }
 
 export default function MontlyManger() {
-  const [cards, setCards] = React.useState([
+  const [quests, setQuests] = React.useState([
     {
       id: 1,
       text: "운동하기",
@@ -57,13 +57,13 @@ export default function MontlyManger() {
     },
   ]);
 
-  const moveCard = React.useCallback(
+  const moveQuest = React.useCallback(
     (dragIndex: number, hoverIndex: number) => {
-      setCards((prevCards: Item[]) =>
-        update(prevCards, {
+      setQuests((prevQuests: Item[]) =>
+        update(prevQuests, {
           $splice: [
             [dragIndex, 1],
-            [hoverIndex, 0, prevCards[dragIndex] as Item],
+            [hoverIndex, 0, prevQuests[dragIndex] as Item],
           ],
         })
       );
@@ -84,9 +84,6 @@ export default function MontlyManger() {
             position: "relative",
           }}
         >
-          {/* <Stack spacing={2}>
-            {cards.map((card, i) => renderCard(card, i))}
-          </Stack> */}
           <MonthTable />
         </Box>
       </Container>
