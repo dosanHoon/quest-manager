@@ -6,7 +6,11 @@ import { useDrag, useDrop } from "react-dnd";
 import { ItemTypes } from "../ItemTypes";
 import CancelIcon from "@mui/icons-material/Cancel";
 
-const CloseBtn = styled(CancelIcon)``;
+const CloseBtn = styled(CancelIcon)`
+  position: absolute;
+  opacity: 0;
+  right: 30px;
+`;
 
 const Item = styled("div")<{ length: number }>`
   text-align: center;
@@ -17,14 +21,12 @@ const Item = styled("div")<{ length: number }>`
   padding: 10px;
   border: 1px solid;
   border-radius: 6px;
-  &::hover ${CloseBtn} {
-    opacity: 0;
+  &:hover {
+    ${CloseBtn} {
+      opacity: 1;
+    }
   }
-  ${CloseBtn} {
-    position: absolute;
-    opacity: 0;
-    right: 30px;
-  }
+
   ${({ length }) => `height : ${length * 44}px`}
 `;
 
