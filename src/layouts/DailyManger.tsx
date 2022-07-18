@@ -1,4 +1,5 @@
 import * as React from "react";
+import { styled } from "@mui/system";
 import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
@@ -18,6 +19,12 @@ export interface Item {
 export interface ContainerState {
   quests: Item[];
 }
+
+const AddQuestBtn = styled(LocalHospitalIcon)`
+  cursor: pointer;
+  position: relative;
+  z-index: 9999;
+`;
 
 export default function DailyManger() {
   const [quests, setQuests] = React.useState([
@@ -80,7 +87,20 @@ export default function DailyManger() {
     );
   }, []);
 
-  const addNewQuest = () => {};
+  const addNewQuest = React.useCallback(() => {
+    setQuests((prevQuests: Item[]) => {
+      const lastId = prevQuests[prevQuests.length - 1].id;
+      return update(prevQuests, {
+        $push: [
+          {
+            id: lastId + 1,
+            text: "",
+            time: 1,
+          },
+        ],
+      });
+    });
+  }, []);
 
   const renderQuest = React.useCallback((quest: Item, index: number) => {
     return (
@@ -113,7 +133,7 @@ export default function DailyManger() {
             {quests.map((quest, i) => renderQuest(quest, i))}
           </Stack>
           <p style={{ textAlign: "right" }}>
-            <LocalHospitalIcon onClick={addNewQuest} />
+            <AddQuestBtn onClick={addNewQuest} />
           </p>
           <DailyTable />
         </Box>
