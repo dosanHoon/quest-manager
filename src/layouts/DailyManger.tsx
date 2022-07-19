@@ -102,6 +102,15 @@ export default function DailyManger() {
     });
   }, []);
 
+  const setText = React.useCallback((value: string, index: number) => {
+    setQuests((prevQuests: Item[]) => {
+      const quest = prevQuests[index];
+      return update(prevQuests, {
+        $splice: [[index, 1, { ...quest, text: value }]],
+      });
+    });
+  }, []);
+
   const renderQuest = React.useCallback((quest: Item, index: number) => {
     return (
       <DailyQuest
@@ -112,6 +121,7 @@ export default function DailyManger() {
         length={quest.time}
         moveQuest={moveQuest}
         removeQuest={removeQuest}
+        setText={setText}
       />
     );
   }, []);

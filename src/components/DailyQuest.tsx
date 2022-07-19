@@ -5,6 +5,7 @@ import { useRef } from "react";
 import { useDrag, useDrop } from "react-dnd";
 import { ItemTypes } from "../ItemTypes";
 import CancelIcon from "@mui/icons-material/Cancel";
+import { TextField } from "@mui/material";
 
 const CloseBtn = styled(CancelIcon)`
   position: absolute;
@@ -37,6 +38,7 @@ export interface QuestProps {
   length: number;
   moveQuest: (dragIndex: number, hoverIndex: number) => void;
   removeQuest: (index: number) => void;
+  setText: (value: string, index: number) => void;
 }
 
 interface DragItem {
@@ -52,6 +54,7 @@ export const DailyQuest: FC<QuestProps> = ({
   length,
   removeQuest,
   moveQuest,
+  setText,
 }) => {
   const ref = useRef<HTMLDivElement>(null);
   const [{ handlerId }, drop] = useDrop<
@@ -135,7 +138,14 @@ export const DailyQuest: FC<QuestProps> = ({
       length={length}
     >
       <CloseBtn onClick={() => removeQuest(index)} />
-      {text}
+
+      <TextField
+        defaultValue="일정"
+        variant="standard"
+        value={text}
+        style={{ padding: 0 }}
+        onChange={(e) => setText(e.target.value, index)}
+      />
     </Item>
   );
 };

@@ -28,7 +28,7 @@ export const MonthTable: React.FC = () => {
   const _renderWeek = () => {
     const times = [];
     for (let i = 0; i < 7; i++) {
-      times.push(<Cell>{i}</Cell>);
+      times.push(<Cell key={i}>{i}</Cell>);
     }
     return times;
   };

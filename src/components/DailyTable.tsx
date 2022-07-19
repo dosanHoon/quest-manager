@@ -34,7 +34,7 @@ export const DailyTable = () => {
 
     for (let i = 0; i < 18; i++) {
       times.push(
-        <Cell>
+        <Cell key={i}>
           <TimeCaption>{i + 6}시</TimeCaption>
           {i === 17 && <TimeCaption>{i + 7}시</TimeCaption>}
         </Cell>
