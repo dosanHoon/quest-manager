@@ -13,7 +13,8 @@ import LocalHospitalIcon from "@mui/icons-material/LocalHospital";
 export interface Item {
   id: number;
   text: string;
-  time: number;
+  startTime: number;
+  lastTime: number;
 }
 
 export interface ContainerState {
@@ -31,37 +32,32 @@ export default function DailyManger() {
     {
       id: 1,
       text: "운동하기",
-      time: 1,
+      startTime: 1,
+      lastTime: 2,
     },
     {
       id: 2,
       text: "공부하기",
-      time: 2,
+      startTime: 1,
+      lastTime: 2,
     },
     {
       id: 3,
       text: "놀기",
-      time: 3,
+      startTime: 1,
+      lastTime: 2,
     },
     {
       id: 4,
       text: "밥 먹기",
-      time: 1,
+      startTime: 1,
+      lastTime: 2,
     },
     {
       id: 5,
       text: "책읽기",
-      time: 1,
-    },
-    {
-      id: 6,
-      text: "???",
-      time: 1,
-    },
-    {
-      id: 7,
-      text: "PROFIT",
-      time: 1,
+      startTime: 1,
+      lastTime: 2,
     },
   ]);
 
@@ -95,7 +91,8 @@ export default function DailyManger() {
           {
             id: lastId + 1,
             text: "",
-            time: 1,
+            startTime: 1,
+            lastTime: 2,
           },
         ],
       });
@@ -118,7 +115,7 @@ export default function DailyManger() {
         index={index}
         id={quest.id}
         text={quest.text}
-        length={quest.time}
+        length={quest.lastTime - quest.startTime}
         moveQuest={moveQuest}
         removeQuest={removeQuest}
         setText={setText}
