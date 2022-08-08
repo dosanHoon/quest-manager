@@ -6,3 +6,4 @@ export default function Square({ black, children }) {
     const color = black ? 'white' : 'black'
     return <div style={{ backgroundColor: fill, color, width: p100, height: p100, textAlign: "center" }} >{children}</div>
 }
+
